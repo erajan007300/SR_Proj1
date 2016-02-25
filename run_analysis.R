@@ -44,7 +44,7 @@ write.table(tidydata.head, "/Users/Evan/Desktop/R/sliderule/Proj1/tidydata.csv")
 # remove variables
 remove(id.activity.label)
 remove(label.cl)
-
+remove(final.data)
 
 
 
