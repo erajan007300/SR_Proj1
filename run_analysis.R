@@ -36,7 +36,7 @@ remove(id)
 
 ## Create final data objects
 data.head <- data.frame(select(final.data,SubjectID:ActivityName),select(final.data,contains("mean")),select(final.data,contains("std")))
-tidydata.head <- subset %>% group_by(SubjectID,ActivityLabel,ActivityName) %>% summarise_each(funs(mean))
+tidydata.head <- data.head %>% group_by(SubjectID,ActivityLabel,ActivityName) %>% summarise_each(funs(mean))
 
 ## Export tidy dataset
 write.table(tidydata.head, "/Users/Evan/Desktop/R/sliderule/Proj1")
@@ -44,7 +44,7 @@ write.table(tidydata.head, "/Users/Evan/Desktop/R/sliderule/Proj1")
 # remove variables
 remove(id.activity.label)
 remove(label.cl)
-remove(subset)
+
 
 
 
