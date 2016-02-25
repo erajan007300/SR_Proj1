@@ -6,7 +6,7 @@ library(shiny)
 library(DT)
 
 #Working Directory
-fp.sphone <- "/Users/Evan/Desktop/R/sliderule/project 1/smartphone"
+fp.sphone <- "/Users/Evan/Desktop/R/sliderule/Proj1/smartphone"
 if(getwd() == fp.sphone){setwd(paste(getwd()))} else {setwd(paste(fp.sphone))}
 rm(fp.sphone)
 
@@ -34,10 +34,12 @@ final.data <- cbind(id,data)
 remove(data)
 remove(id)
 
-## Subset: "final.subset"
-#Subset
+## Create final data objects
 data.head <- data.frame(select(final.data,SubjectID:ActivityName),select(final.data,contains("mean")),select(final.data,contains("std")))
 tidydata.head <- subset %>% group_by(SubjectID,ActivityLabel,ActivityName) %>% summarise_each(funs(mean))
+
+## Export tidy dataset
+write.table(tidydata.head, "/Users/Evan/Desktop/R/sliderule/Proj1")
 
 # remove variables
 remove(id.activity.label)
