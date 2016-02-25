@@ -39,7 +39,7 @@ data.head <- data.frame(select(final.data,SubjectID:ActivityName),select(final.d
 tidydata.head <- data.head %>% group_by(SubjectID,ActivityLabel,ActivityName) %>% summarise_each(funs(mean))
 
 ## Export tidy dataset
-write.table(tidydata.head, "/Users/Evan/Desktop/R/sliderule/Proj1")
+write.table(tidydata.head, "/Users/Evan/Desktop/R/sliderule/Proj1/tidydata.csv")
 
 # remove variables
 remove(id.activity.label)
