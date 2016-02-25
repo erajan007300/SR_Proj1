@@ -36,8 +36,8 @@ remove(id)
 
 ## Subset: "final.subset"
 #Subset
-subset <- data.frame(select(final.data,SubjectID:ActivityName),select(final.data,contains("mean")),select(final.data,contains("std")))
-final.subset <- subset %>% group_by(SubjectID,ActivityLabel,ActivityName) %>% summarise_each(funs(mean))
+data.head <- data.frame(select(final.data,SubjectID:ActivityName),select(final.data,contains("mean")),select(final.data,contains("std")))
+tidydata.head <- subset %>% group_by(SubjectID,ActivityLabel,ActivityName) %>% summarise_each(funs(mean))
 
 # remove variables
 remove(id.activity.label)
