@@ -1,0 +1,99 @@
+
+# 1: Prep
+
+## Load Library    
+>*library("dplyr")*  
+>*library("tidyr")*  
+
+Load libraries used in script. Dplyr and tidyr are used to clean data.
+
+## Working Directory  
+
+>*fp.sphone <- "/Users/Evan/Desktop/R/sliderule/project 1/smartphone"*      
+
+Defines variable for working directory filepath  
+
+>*if(getwd() == fp.sphone){setwd(paste(getwd()))} else {setwd(paste(fp.sphone))}*  
+
+If statement to implement working directory filepath  
+
+>*rm(fp.sphone)*  
+
+Removes working directory variable
+
+# 2: Import & Merge  
+
+## Import dataset  
+
+>*data <- rbind(tbl_df(read.table("test/X_test.txt", header = FALSE)),tbl_df(read.table("train/X_train.txt", header = FALSE)))*  
+
+Defines variable for dataset object - data imported from two files using read.table function, and then bound together using rbind function.  
+
+## Import Subject/Activity ID's  
+
+>*id.activity <- rbind(tbl_df(I(read.table("test/y_test.txt"))), tbl_df(I(read.table("train/y_train.txt"))))*  
+>*id.subject <- rbind(tbl_df(I(read.table("test/subject_test.txt"))), tbl_df(I(read.table("train/subject_train.txt"))))*  
+
+Variable definitions for subject/activity ID objects - data imported from 2 files using read.table function, and merged using rbind function.  
+
+>*id <- cbind(id.subject,id.activity)*  
+
+Merge subject (id.subject) and activity ID (id.activity) datasets into one for eventual merger with dataset object (data) using cbind function. 
+
+>*remove(id.activity)*  
+>*remove(id.subject)*  
+
+removes initial import variables from working memory.  
+
+## Import Column Headers and Data labels  
+>*label.cl <- tbl_df(read.table("features.txt", stringsAsFactors = FALSE))*  
+
+Import activity ID's  
+
+>*id.activity.label <- tbl_df(read.table("activity_labels.txt", stringsAsFactors = FALSE))*  
+
+Import activity ID data labels  
+
+## Assign column headers to dataset objects  
+>*colnames(data) <- make.names(c(label.cl$V2), unique = TRUE)*   
+
+Assign column headers (label.cl$V2) to vector, use make.names function to make valid names from character vector, and colnames to assign name vector to data set object.  
+
+>*colnames(id) <- c("SubjectID","ActivityLabel")*  
+
+Assign column headers for ID's to vector, use colnames to assign name vector to data id object.  
+
+>*id[,"ActivityName"] <- factor(id$ActivityLabel, levels = c(id.activity.label$V1), labels = c(id.activity.label$V2))*  
+
+Assign data labels from id.activity.label$V2 to activity ID data in data id object.  
+
+## Final Bind  
+
+>*final.data <- cbind(id,data)*  
+
+Define variable for final data set object - use cbind to to merge dataset (data) and ID data objects (id)  
+
+>*remove(data)*  
+>*remove(id)*  
+
+Remove final variables from working memory  
+final.data represents the "assembled" data set resulting from the importing and wrangling efforts above.  
+
+# Step 3: Wrangle  
+>*subset <- data.frame(select(final.data,SubjectID:ActivityName),select(final.data,contains("mean")),select(final.data,contains("std")))*  
+
+Use tidyr/dplyr 'select' function to create subset of original data set - selection criteria are defined as column header containing word "mean" or "std". Data.frame function creates new object for data subset.  
+
+>*final.subset <- subset %>% group_by(SubjectID,ActivityLabel,ActivityName) %>% summarise_each(funs(mean))*  
+
+dplyr function "group_by" used to calculate mean at subject/activity level.  
+
+**variable tidydata.head represents final product per project requirements.**  
+
+
+# Step 4: Clean Up  
+>*remove(id.activity.label)*  
+>*remove(label.cl)*  
+>*remove(subset)*  
+
+Delete unused variables from working memory  
