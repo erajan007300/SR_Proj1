@@ -2,8 +2,6 @@
 # Import library
 library("dplyr")
 library("tidyr")
-library(shiny)
-library(DT)
 
 #Working Directory
 fp.sphone <- "/Users/Evan/Desktop/R/sliderule/Proj1/smartphone"
